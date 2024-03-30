@@ -47,3 +47,65 @@ Report:
 Additional task:
 
 (TBD) Implement the patch replacement backdoor pattern
+
+============================================================================
+Project Plan:
+
+Sequence for training:
+
+[-] Make code changes locally for attack crafting
+[-] Generate attack samples
+[-] Make code changes locally for training
+[-] In train(epoch): Write PERT_SIZE, BD_NUM, epoch, train_acc to train_stats.csv
+[-] In test(epoch): Write PERT_SIZE, BD_NUM, test_acc to validation_stats.csv
+[-] In test_attack(epoch): Write PERT_SIZE, BD_NUM, test_acc to asr_stats.csv
+[-] Plot graphs based on dfs in 3 csv files
+    [-] Determine highest ASR when PERT_SIZE constant
+    [-] Determine highest ASR when BD_NUM constant
+    [-] Determine highest ASR when BD_NUM constant
+    [-] Training loss/epoch v/s BD_NUM (for highest ASR)
+    [-] Training loss/epoch v/s PERT_SIZE (for highest ASR)
+    [-] ASR v/s Poisoning rate (calc from BD_NUM)
+    [-] ASR v/s PERT_SIZE
+[-] Add args in attacks_crafting.py to accept PERT_SIZE and BD_NUM
+[-] Add args in train.py to set path for train_attacks and test_attacks
+
+A. Craft Samples:
+    - Keeping PERT_SIZE = 1
+        - BD_NUM = 250
+        - BD_NUM = 500
+        - BD_NUM = 750
+        - BD_NUM = 1000
+        - BD_NUM = 1500
+    - Keeping PERT_SIZE = 0.5
+        - BD_NUM = 250
+        - BD_NUM = 500
+        - BD_NUM = 750
+        - BD_NUM = 1000
+        - BD_NUM = 1500
+    - Keeping PERT_SIZE = 0.3
+        - BD_NUM = 250
+        - BD_NUM = 500
+        - BD_NUM = 750
+        - BD_NUM = 1000
+        - BD_NUM = 1500
+
+B. Train RN-18
+    - 250_1
+    - 500_1
+    - 750_1
+    - 1000_1
+    - 1500_1
+    - 250_0.5
+    - 500_0.5
+    - 750_0.5
+    - 1000_0.5
+    - 1500_0.5
+    - 250_0.3
+    - 500_0.3
+    - 750_0.3
+    - 1000_0.3
+    - 1500_0.3
+
+Time Estimation: 2 hrs for code changes and general understanding    
+                 3 hrs for training    
