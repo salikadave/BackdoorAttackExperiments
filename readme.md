@@ -53,7 +53,7 @@ Project Plan:
 
 Sequence for training:
 
-[-] Make code changes locally for attack crafting
+[-] Make code changes locally for attack crafting - DONE
 [-] Generate attack samples
 [-] Make code changes locally for training
 [-] In train(epoch): Write PERT_SIZE, BD_NUM, epoch, train_acc to train_stats.csv
@@ -71,19 +71,19 @@ Sequence for training:
 [-] Add args in train.py to set path for train_attacks and test_attacks
 
 A. Craft Samples:
-    - Keeping PERT_SIZE = 1
+    - Keeping PERT_SIZE = 2/255
         - BD_NUM = 250
         - BD_NUM = 500
         - BD_NUM = 750
         - BD_NUM = 1000
         - BD_NUM = 1500
-    - Keeping PERT_SIZE = 0.5
+    - Keeping PERT_SIZE = 4/255
         - BD_NUM = 250
         - BD_NUM = 500
         - BD_NUM = 750
         - BD_NUM = 1000
         - BD_NUM = 1500
-    - Keeping PERT_SIZE = 0.3
+    - Keeping PERT_SIZE = 6/255
         - BD_NUM = 250
         - BD_NUM = 500
         - BD_NUM = 750
@@ -91,21 +91,3 @@ A. Craft Samples:
         - BD_NUM = 1500
 
 B. Train RN-18
-    - 250_1
-    - 500_1
-    - 750_1
-    - 1000_1
-    - 1500_1
-    - 250_0.5
-    - 500_0.5
-    - 750_0.5
-    - 1000_0.5
-    - 1500_0.5
-    - 250_0.3
-    - 500_0.3
-    - 750_0.3
-    - 1000_0.3
-    - 1500_0.3
-
-Time Estimation: 2 hrs for code changes and general understanding    
-                 3 hrs for training    

@@ -15,9 +15,30 @@ import numpy as np
 
 from src.resnet import ResNet18
 
+def build_loader_file_paths(pert_size=1, sample_count=250):
+
+    train_tensors = f'./attacks/train/train_attacks_{sample_count}_{pert_size}'
+    test_tensors = f'./attacks/test/test_attacks_{sample_count}_{pert_size}'
+    ind_tensors = f'./attacks/ind/ind_train_{sample_count}_{pert_size}'
+
+    return train_tensors, test_tensors, ind_tensors
+
+def poison_training_data(trainset, images, labels, ind_train):
+    image_dtype = trainset.data.dtype
+    
+    images = np.rint(np.transpose(images.numpy() * 255, [0, 2, 3, 1])).astype(image_dtype)
+    trainset.data = np.concatenate((trainset.data, images))
+    trainset.targets = np.concatenate((trainset.targets, labels))
+
+    trainset.data = np.delete(trainset.data, ind_train, axis=0)
+    trainset.targets = np.delete(trainset.targets, ind_train, axis=0)
+    return trainset
+
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training (with backdoor)')
 parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
+parser.add_argument("--pert_size", default=1, type=int, help="Refer to mapping for PERT_SIZE = Value in [0, 1]")
+parser.add_argument("--sample_count", default=250, type=int, help="BD_NUM = Value in [0, 250, 500, 750, 1000, 1500]")
 args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -43,10 +64,15 @@ testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True
 if not os.path.isdir('attacks'):
     print ('Attack images not found, please craft attack images first!')
     sys.exit(0)
-train_attacks = torch.load('./attacks/train_attacks')
+
+train_atk_path, test_atk_path, ind_atk_path = build_loader_file_paths(args.pert_size, args.sample_count)
+
+# train_attacks = torch.load('./attacks/train_attacks')
+train_attacks = torch.load(train_atk_path)
 train_images_attacks = train_attacks['image']
 train_labels_attacks = train_attacks['label']
-test_attacks = torch.load('./attacks/test_attacks')
+# test_attacks = torch.load('./attacks/test_attacks')
+test_attacks = torch.load(test_atk_path)
 test_images_attacks = test_attacks['image']
 test_labels_attacks = test_attacks['label']
 
@@ -55,6 +81,9 @@ testset_attacks = torch.utils.data.TensorDataset(test_images_attacks, test_label
 
 # Poison the training set and remove clean images used for creating backdoor training images
 ## TO DO ##
+# ind_train = torch.load('./attacks/ind_train')
+ind_train = torch.load(ind_atk_path)
+trainset = poison_training_data(trainset, train_images_attacks, train_labels_attacks, ind_train)
 
 # Load in the datasets
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, shuffle=True, num_workers=2)
