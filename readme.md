@@ -67,27 +67,3 @@ Sequence for training:
     [-] Training loss/epoch v/s PERT_SIZE (for highest ASR)
     [-] ASR v/s Poisoning rate (calc from BD_NUM)
     [-] ASR v/s PERT_SIZE
-[-] Add args in attacks_crafting.py to accept PERT_SIZE and BD_NUM
-[-] Add args in train.py to set path for train_attacks and test_attacks
-
-A. Craft Samples:
-    - Keeping PERT_SIZE = 2/255
-        - BD_NUM = 250
-        - BD_NUM = 500
-        - BD_NUM = 750
-        - BD_NUM = 1000
-        - BD_NUM = 1500
-    - Keeping PERT_SIZE = 4/255
-        - BD_NUM = 250
-        - BD_NUM = 500
-        - BD_NUM = 750
-        - BD_NUM = 1000
-        - BD_NUM = 1500
-    - Keeping PERT_SIZE = 6/255
-        - BD_NUM = 250
-        - BD_NUM = 500
-        - BD_NUM = 750
-        - BD_NUM = 1000
-        - BD_NUM = 1500
-
-B. Train RN-18
