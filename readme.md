@@ -1,4 +1,4 @@
-Backdoor Attack
+## Backdoor Attack
 
 Goal: Implement backdoor attack
 
@@ -43,27 +43,3 @@ Report:
 1. Attack success rate and clean test accuracy for basic configuration
 
 2. Attack success rate versus poisoning rate or perturbation size
-
-Additional task:
-
-(TBD) Implement the patch replacement backdoor pattern
-
-============================================================================
-Project Plan:
-
-Sequence for training:
-
-[-] Make code changes locally for attack crafting - DONE
-[-] Generate attack samples
-[-] Make code changes locally for training
-[-] In train(epoch): Write PERT_SIZE, BD_NUM, epoch, train_acc to train_stats.csv
-[-] In test(epoch): Write PERT_SIZE, BD_NUM, test_acc to validation_stats.csv
-[-] In test_attack(epoch): Write PERT_SIZE, BD_NUM, test_acc to asr_stats.csv
-[-] Plot graphs based on dfs in 3 csv files
-    [-] Determine highest ASR when PERT_SIZE constant
-    [-] Determine highest ASR when BD_NUM constant
-    [-] Determine highest ASR when BD_NUM constant
-    [-] Training loss/epoch v/s BD_NUM (for highest ASR)
-    [-] Training loss/epoch v/s PERT_SIZE (for highest ASR)
-    [-] ASR v/s Poisoning rate (calc from BD_NUM)
-    [-] ASR v/s PERT_SIZE
