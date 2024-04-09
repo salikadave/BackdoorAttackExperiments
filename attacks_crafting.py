@@ -16,6 +16,7 @@ from src.utils import pattern_craft, add_backdoor
 parser = argparse.ArgumentParser(description='PyTorch Backdoor Attack Crafting')
 parser.add_argument("--pert_size", default=1, type=int, help="Refer to mapping for PERT_SIZE = Value in [0, 1]")
 parser.add_argument("--sample_count", default=250, help="BD_NUM = Value in [0, 250, 500, 750, 1000, 1500]")
+# parser.add_argument("--pattern_type", default='chessboard', help="chessboard")
 args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'

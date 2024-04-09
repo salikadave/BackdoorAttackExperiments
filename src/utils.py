@@ -42,7 +42,8 @@ def add_backdoor(image, perturbation):
     poisoned_image[:, -5:, -5:] = 1.0  # Adding a white square to the bottom right
     return torch.tensor(poisoned_image), target_label
     '''
-    # visualize_image(image, filename='original_image.png')
+    visualize_image(image, filename='original_image.png')
+    visualize_perturbation(perturbation)
 
     image += perturbation
     image *= 255
@@ -50,7 +51,7 @@ def add_backdoor(image, perturbation):
     image /= 255
     image = image.clamp(0, 1)
 
-    # visualize_image(image, filename='perturbed_image.png')
+    visualize_image(image, filename='perturbed_image.png')
     
     return image
     # pass
@@ -68,7 +69,6 @@ def visualize_perturbation(pattern):
 def visualize_image(image, filename):
     new_image = image.numpy()
     new_image = np.transpose(new_image, [1, 2, 0])
-    # plt.savefig(os.path.join('./samples', filename))
     plt.imshow(new_image)
-    plt.savefig(os.path.join('./samples', filename), format='png')
+    plt.savefig(os.path.join('.', filename), format='png')
     # plt.show()

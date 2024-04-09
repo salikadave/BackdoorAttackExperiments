@@ -206,13 +206,13 @@ def test_attack(epoch):
     acc = 100. * correct / total
     print('Attack success rate: %.3f' % acc)
 
+if __name__ == "__main__":
+    for epoch in range(start_epoch, start_epoch+70):
+        model_contam = train(epoch)
+        test(epoch)
+        test_attack(epoch)
 
-for epoch in range(start_epoch, start_epoch+70):
-    model_contam = train(epoch)
-    test(epoch)
-    test_attack(epoch)
-
-    # Save model
-    if not os.path.isdir('contam'):
-        os.mkdir('contam')
-    torch.save(model_contam.state_dict(), './contam/model_contam.pth')
+        # Save model
+        if not os.path.isdir('contam'):
+            os.mkdir('contam')
+        torch.save(model_contam.state_dict(), './contam/model_contam.pth')
