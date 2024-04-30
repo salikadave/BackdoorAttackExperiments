@@ -6,10 +6,45 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import copy as cp
+import sys
 
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
+def pattern_craft_patch(im_size, mask_size, margin, patch_type):
+    # mask_size = config['MASK_SIZE']
+    # margin = config['MARGIN']
+    # patch_type = config['PATCH_TYPE']
+    if margin * 2 + mask_size >= im_size[1] or margin * 2 + mask_size >= im_size[2]:
+        sys.exit("Decrease margin or mask size!")
+    # Pick a random location
+    x_candidate = torch.from_numpy(np.concatenate([np.arange(0, margin),
+                                                       np.arange(int(im_size[1] - margin - mask_size + 1),
+                                                                 int(im_size[1] - mask_size + 1))]))
+    y_candidate = torch.from_numpy(np.concatenate([np.arange(0, margin),
+                                                       np.arange(int(im_size[2] - margin - mask_size + 1),
+                                                                 int(im_size[2] - mask_size + 1))]))
+    x = x_candidate[torch.randperm(len(x_candidate))[0]].item()
+    y = y_candidate[torch.randperm(len(y_candidate))[0]].item()
+    # Create mask and pattern
+    mask = torch.zeros(im_size)
+    mask[:, x:x + mask_size, y:y + mask_size] = 1
+    if patch_type == 'noise':
+        patch = torch.randint(0, 255, size=(im_size[0], mask_size, mask_size)) / 255
+    elif patch_type == 'uniform':
+        color = torch.randint(50, 200, size=(im_size[0], 1, 1)) / 255
+        patch = torch.ones((im_size[0], mask_size, mask_size)) * color.repeat(1, mask_size, mask_size)
+    pattern = torch.zeros(im_size)
+    pattern[:, x:x + mask_size, y:y + mask_size] = patch
+    pattern = (pattern, mask)
+    return pattern
+
+def add_patch(image, perturbation):
+    image = image * (1 - perturbation[1]) + perturbation[0] * perturbation[1]
+    return image
+
+def visualize_patch_pattern():
+    pass
 
 def pattern_craft(im_size, pattern_type, perturbation_size):
     ## TO DO ##
@@ -34,7 +69,7 @@ def pattern_craft(im_size, pattern_type, perturbation_size):
     # pass
 
 
-def add_backdoor(image, perturbation):
+def add_backdoor(image, perturbation, type='patch'):
     ## TO DO ##
 
     # here is where we will define the backdoor pattern. Let's say the pattern is to add a white square to the bottom right corner of the image. Then the following will be executed:
@@ -43,6 +78,10 @@ def add_backdoor(image, perturbation):
     poisoned_image[:, -5:, -5:] = 1.0  # Adding a white square to the bottom right
     return torch.tensor(poisoned_image), target_label
     '''
+    if type == 'patch':
+        image = image * (1 - perturbation[1]) + perturbation[0] * perturbation[1]
+    return image
+    
     visualize_image(image, filename='original_image.png')
     visualize_perturbation(perturbation)
 

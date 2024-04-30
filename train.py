@@ -15,11 +15,16 @@ import numpy as np
 
 from src.resnet import ResNet18
 
-def build_loader_file_paths(pert_size=1, sample_count=250):
-
-    train_tensors = f'./attacks/train/train_attacks_{sample_count}_{pert_size}'
-    test_tensors = f'./attacks/test/test_attacks_{sample_count}_{pert_size}'
-    ind_tensors = f'./attacks/ind/ind_train_{sample_count}_{pert_size}'
+def build_loader_file_paths(pert_size=1, sample_count=250, type='patch'):
+    
+    if type=='patch':
+        train_tensors = f'./attacks/patch/train/train_attacks_3_3'
+        test_tensors = f'./attacks/patch/test/test_attacks_3_3'
+        ind_tensors = f'./attacks/patch/ind/ind_train_3_3'
+    else:
+        train_tensors = f'./attacks/train/train_attacks_{sample_count}_{pert_size}'
+        test_tensors = f'./attacks/test/test_attacks_{sample_count}_{pert_size}'
+        ind_tensors = f'./attacks/ind/ind_train_{sample_count}_{pert_size}'
 
     return train_tensors, test_tensors, ind_tensors
 
@@ -65,7 +70,7 @@ if not os.path.isdir('attacks'):
     print ('Attack images not found, please craft attack images first!')
     sys.exit(0)
 
-train_atk_path, test_atk_path, ind_atk_path = build_loader_file_paths(args.pert_size, args.sample_count)
+train_atk_path, test_atk_path, ind_atk_path = build_loader_file_paths(args.pert_size, args.sample_count, type='patch')
 
 # train_attacks = torch.load('./attacks/train_attacks')
 train_attacks = torch.load(train_atk_path)
