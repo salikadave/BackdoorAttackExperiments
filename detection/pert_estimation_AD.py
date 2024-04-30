@@ -25,6 +25,8 @@ import time
 from src.resnet import ResNet18
 from src.utils import pert_est_class_pair
 
+print(os.getcwd())
+
 parser = argparse.ArgumentParser(description='Reverse engineer backdoor pattern')
 args = parser.parse_args()
 
@@ -45,7 +47,7 @@ if device == 'cuda':
     model = torch.nn.DataParallel(model)
     cudnn.benchmark = True
 # model.load_state_dict(torch.load('./model/model.pth'))
-model.load_state_dict(torch.load('../models/model_contam_2_500.pth'), map_location=torch.device('cpu'))
+model.load_state_dict(torch.load('attack/detection/models/model_contam_2_500.pth'))
 model.eval()
 
 # Create saving path for results
