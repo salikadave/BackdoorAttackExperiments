@@ -45,7 +45,7 @@ if device == 'cuda':
     model = torch.nn.DataParallel(model)
     cudnn.benchmark = True
 # model.load_state_dict(torch.load('./model/model.pth'))
-model.load_state_dict(torch.load('./models/model_contam_2_500.pth'), map_location=torch.device('cpu'))
+model.load_state_dict(torch.load('../../models/model_contam_2_500.pth'), map_location=torch.device('cpu'))
 model.eval()
 
 # Create saving path for results
