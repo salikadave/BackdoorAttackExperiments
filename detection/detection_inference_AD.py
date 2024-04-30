@@ -26,7 +26,7 @@ for s in range(NC):
     for t in range(NC):
         if s == t:
             continue
-        pert = torch.load('./pert_estimated/pert_{}_{}'.format(s, t))
+        pert = torch.load('pert_estimated/pert_estimated_2_500/pert_{}_{}'.format(s, t))
         pert_norm = torch.norm(pert)
         r[s, t] = 1/pert_norm
 
