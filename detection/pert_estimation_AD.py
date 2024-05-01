@@ -46,9 +46,6 @@ NI = args.ni     # Number of images per class used for detection
 # PI = 0.5
 PI = args.pi
 
-print(NC, NI, PI)
-sys.exit()
-
 # Load model to be inspected
 model = ResNet18()
 model = model.to(device)
