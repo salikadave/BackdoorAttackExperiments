@@ -28,6 +28,9 @@ from src.utils import pert_est_class_pair
 print(os.getcwd())
 
 parser = argparse.ArgumentParser(description='Reverse engineer backdoor pattern')
+parser.add_argument("--nc", default=10, type=int, help="")
+parser.add_argument("--ni", default=10, type=int, help="")
+parser.add_argument("--pi", default=0.9, type=float, help="")
 args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -36,9 +39,15 @@ start_time = time.time()
 random.seed()
 
 # Detection parameters
-NC = 10     # Number of classes
-NI = 10     # Number of images per class used for detection
-PI = 0.9
+# NC = 10     # Number of classes
+NC = args.nc     # Number of classes
+# NI = 2     # Number of images per class used for detection
+NI = args.ni     # Number of images per class used for detection
+# PI = 0.5
+PI = args.pi
+
+print(NC, NI, PI)
+sys.exit()
 
 # Load model to be inspected
 model = ResNet18()
@@ -47,7 +56,7 @@ if device == 'cuda':
     model = torch.nn.DataParallel(model)
     cudnn.benchmark = True
 # model.load_state_dict(torch.load('./model/model.pth'))
-model.load_state_dict(torch.load('attack/detection/models/model_contam_2_500.pth'))
+model.load_state_dict(torch.load('detection/models/model_contam_2_500.pth', map_location=torch.device('cpu')), strict=False)
 model.eval()
 
 # Create saving path for results

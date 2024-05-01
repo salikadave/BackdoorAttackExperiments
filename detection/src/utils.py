@@ -16,7 +16,7 @@ import copy as cp
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-def pert_est_class_pair(source, target, model, images, labels, pi=0.9, lr=1e-4, NSTEP=100, verbose=False):
+def pert_est_class_pair(source, target, model, images, labels, pi=0.9, lr=1e-4, NSTEP=100, verbose=True):
     '''
     :param source: souce class
     :param target: target class

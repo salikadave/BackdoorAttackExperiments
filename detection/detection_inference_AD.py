@@ -13,12 +13,15 @@ from numpy import linalg
 from scipy.stats import gamma
 
 parser = argparse.ArgumentParser(description='anomaly detection')
-
+parser.add_argument("--nc", default=10, type=int, help="")
+parser.add_argument("--theta", default=0.05, type=float, help="")
 args = parser.parse_args()
 
 # Detection parameters
-NC = 10
-THETA = 0.05
+# NC = 10
+NC = args.nc
+# THETA = 0.05
+THETA = args.theta
 
 # Load in detection statistics
 r = np.zeros((NC, NC))
