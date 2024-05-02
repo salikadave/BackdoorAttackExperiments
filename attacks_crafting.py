@@ -24,7 +24,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 random.seed()
 
 # Load attack configuration
-with open('config.json') as config_file:
+with open('attack/config.json') as config_file:
     config = json.load(config_file)
 
 # Load raw data

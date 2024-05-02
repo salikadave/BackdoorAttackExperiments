@@ -40,6 +40,7 @@ def pattern_craft_patch(im_size, mask_size, margin, patch_type):
     return pattern
 
 def add_patch(image, perturbation):
+    visualize_perturbation(perturbation)
     image = image * (1 - perturbation[1]) + perturbation[0] * perturbation[1]
     return image
 
@@ -80,6 +81,7 @@ def add_backdoor(image, perturbation, type='patch'):
     '''
     if type == 'patch':
         image = image * (1 - perturbation[1]) + perturbation[0] * perturbation[1]
+        visualize_image(image, filename='sample_patch_img.png')
     return image
     
     visualize_image(image, filename='original_image.png')
@@ -100,11 +102,11 @@ def visualize_perturbation(pattern):
     """
     Visualize the perturbation.
     """
-    pattern = pattern.numpy()
+    pattern = pattern[0].numpy()
     pattern = np.transpose(pattern, [1, 2, 0])
     plt.imshow(pattern)
     plt.show()
-    plt.savefig(os.path.join('.', 'chessdoor_pattern.png'))
+    plt.savefig(os.path.join('.', 'patch_pattern.png'))
 
 def visualize_image(image, filename):
     new_image = image.numpy()
